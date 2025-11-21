@@ -30,29 +30,75 @@ const toggleConfigurator = () => store.commit("toggleConfigurator");
 
 </script>
 <template>
-  <div
-    v-show="layout === 'landing'"
-    class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
-  ></div>
+  <div id="app-wrapper" class="argon-app-wrapper">
+    <!-- Landing background (only for landing layout) -->
+    <div
+      v-show="layout === 'landing'"
+      class="landing-bg h-100 bg-gradient-primary position-fixed w-100"
+    ></div>
 
-  <sidenav v-if="showSidenav" />
+    <!-- Main container with flex layout -->
+    <div class="argon-app-container">
+      <!-- Sidebar - contained within app -->
+      <sidenav v-if="showSidenav" class="argon-sidenav-wrapper" />
 
-  <main
-    class="main-content position-relative max-height-vh-100 h-100 border-radius-lg"
-  >
-    <!-- nav -->
+      <!-- Main content area -->
+      <main class="argon-main-content">
+        <router-view />
+      </main>
+    </div>
 
-
-    <router-view />
-
-
-
-  </main>
+    <!-- Configurator (if enabled) -->
+    <configurator v-if="showConfig" />
+  </div>
 </template>
 
 <style>
-#app {
-  max-width: 95%;
-  margin: 0 auto;
+/* Wrapper to contain everything */
+#app-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Main app container with flex layout */
+.argon-app-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fe;
+}
+
+/* Sidebar wrapper - constrained width, no fixed positioning */
+.argon-sidenav-wrapper {
+  flex: 0 0 260px;
+  min-width: 260px;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+  border-right: 1px solid #e3e3e3;
+}
+
+/* Main content area - takes remaining space */
+.argon-main-content {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow-y: auto;
+  height: 100vh;
+  background-color: #f8f9fe;
+}
+
+/* Ensure no overflow breaks layout */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
 }
 </style>

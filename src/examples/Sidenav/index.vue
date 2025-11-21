@@ -15,11 +15,10 @@ const isRTL = computed(() => store.state.isRTL);
 <template>
   <aside
     id="sidenav-main"
-    class="my-3 overflow-auto border-0 sidenav navbar navbar-vertical navbar-expand-xs border-radius-xl"
+    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-0"
     :class="[
-      isRTL ? 'me-3 rotate-caret fixed-end' : 'fixed-start ms-3',
-      layout === 'landing' ? 'bg-transparent shadow-none' : '',
-      sidebarType
+      layout === 'landing' ? 'bg-transparent shadow-none' : sidebarType,
+      isRTL ? 'fixed-end' : 'fixed-start'
     ]"
   >
     <hr class="mt-0 horizontal dark" />
@@ -28,9 +27,26 @@ const isRTL = computed(() => store.state.isRTL);
 </template>
 
 <style scoped>
+#sidenav-main {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  flex-shrink: 0;
+  overflow-y: auto;
+  height: auto;
+}
+
 #sidenav-main.shrunk-parent {
   width: 60px !important;
   border: none !important;
   overflow: hidden;
+}
+
+/* Remove fixed positioning that causes overlap */
+#sidenav-main.fixed-start,
+#sidenav-main.fixed-end {
+  position: relative !important;
 }
 </style>
